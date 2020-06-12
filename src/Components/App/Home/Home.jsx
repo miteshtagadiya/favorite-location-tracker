@@ -4,6 +4,7 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import Header from "../../Ui/Header/Header";
 import { Button, Divider, Paper, Container, Grid } from "@material-ui/core";
 import { AddOutlined } from "@material-ui/icons";
+import MapCard from "../../Ui/Card/MapCard";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -26,11 +27,22 @@ const useStyles = makeStyles((theme) => ({
 const Home = (props) => {
   const classes = useStyles();
   const [openSidebar, setOpenSidebar] = React.useState(true);
+  const [selectedCard, setSelectedCard] = React.useState({});
 
   const renderCard = (place, description, lat, lng) => {
     return (
       <Paper elevation={3}>
-        <div style={{ padding: 10, marginTop: 10 }}>
+        <div
+          onClick={() => {
+            setSelectedCard({
+              name: place,
+              description: description,
+              lat: lat,
+              long: lng,
+            });
+          }}
+          style={{ padding: 10, marginTop: 10 }}
+        >
           <label style={{ fontSize: 16, fontWeight: "bold" }}>{place}</label>
           <br />
           <label>{description}</label>
@@ -108,6 +120,7 @@ const Home = (props) => {
               >
                 <AddOutlined />
               </Paper>
+              <MapCard selectedCard={selectedCard} distance={100} />
               <div style={{ background: "grey" }} />
             </Grid>
           </Grid>

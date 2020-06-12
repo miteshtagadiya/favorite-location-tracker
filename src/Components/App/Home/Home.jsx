@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Header from "../../Ui/Header/Header";
@@ -6,6 +6,7 @@ import { Button, Divider, Paper, Container, Grid } from "@material-ui/core";
 import { AddOutlined } from "@material-ui/icons";
 import Map from "../Maps/Map";
 import MapCard from "../../Ui/Card/MapCard";
+import { getDistanceBetweenPoints } from "../../../utils/utils";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -29,6 +30,22 @@ const Home = (props) => {
   const classes = useStyles();
   const [openSidebar, setOpenSidebar] = React.useState(true);
   const [selectedCard, setSelectedCard] = React.useState({});
+  const [currentLocation, setCurrentLocation] = React.useState({});
+  const [distance, setDistance] = React.useState(0);
+  const [isLocationSelected, setIsLocationSelected] = React.useState(false);
+
+  useEffect(() => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((location) => {
+        setCurrentLocation({
+          lat: location.coords.latitude,
+          lng: location.coords.longitude,
+        });
+      });
+    } else {
+      console.log("error");
+    }
+  }, []);
 
   const renderCard = (place, description, lat, lng) => {
     return (
@@ -41,6 +58,15 @@ const Home = (props) => {
               lat: lat,
               long: lng,
             });
+            setDistance(
+              getDistanceBetweenPoints(
+                props.currentLocation.lat,
+                props.currentLocation.lng,
+                lat,
+                lng
+              )
+            );
+            setIsLocationSelected(true);
           }}
           style={{ padding: 10, marginTop: 10 }}
         >

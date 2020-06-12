@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, memo } from "react";
 
 const { compose, withProps } = require("recompose");
 const {
@@ -6,12 +6,38 @@ const {
   withGoogleMap,
   GoogleMap,
   Marker,
+  Polyline,
 } = require("react-google-maps");
 
 class App1 extends Component {
   state = {
-    cordinates: this.props.cordinates,
+    isLocationSelected: this.props.isLocationSelected,
+    selectedCard: this.props.selectedCard,
+    currentLocation: this.props.currentLocation,
+    cordinates: this.props.isLocationSelected ? [] : this.props.cordinates,
   };
+
+  componentWillUpdate(nextProps, nextState) {
+    console.log(nextProps.isLocationSelected);
+    console.log(this.props.isLocationSelected);
+    console.log(nextProps.selectedCard);
+    console.log(this.props.selectedCard);
+    console.log(
+      nextProps.isLocationSelected !== this.props.isLocationSelected &&
+        nextProps.selectedCard !== this.props.selectedCard
+    );
+    if (
+      nextProps.isLocationSelected !== this.props.isLocationSelected &&
+      nextProps.selectedCard !== this.props.selectedCard
+    ) {
+      this.setState({
+        isLocationSelected: nextProps.isLocationSelected,
+        selectedCard: nextProps.selectedCard,
+        currentLocation: nextProps.currentLocation,
+        cordinates: nextProps.cordinates,
+      });
+    }
+  }
 
   render() {
     const App = compose(
@@ -29,16 +55,56 @@ class App1 extends Component {
     )((props) => (
       <GoogleMap
         defaultZoom={5}
-        defaultCenter={{
-          lat: this.state.cordinates[0].lat,
-          lng: this.state.cordinates[0].lng,
-        }}
+        defaultCenter={
+          this.state.cordinates.length === 0
+            ? {
+                lat: this.state.currentLocation.lat,
+                lng: this.state.currentLocation.lng,
+              }
+            : {
+                lat: this.state.cordinates[0].lat,
+                lng: this.state.cordinates[0].lng,
+              }
+        }
       >
-        {this.state.cordinates.map((cord, index) => {
-          return (
-            <Marker key={index} position={{ lat: cord.lat, lng: cord.lng }} />
-          );
-        })}
+        {this.state.isLocationSelected === false
+          ? this.state.cordinates.map((cord, index) => {
+              return (
+                <Marker
+                  key={index}
+                  position={{ lat: cord.lat, lng: cord.lng }}
+                />
+              );
+            })
+          : null}
+        {this.state.isLocationSelected && (
+          <>
+            <Marker
+              position={{
+                lat: this.state.currentLocation.lat,
+                lng: this.state.currentLocation.lng,
+              }}
+            />
+            <Marker
+              position={{
+                lat: this.state.selectedCard.lat,
+                lng: this.state.selectedCard.long,
+              }}
+            />
+            <Polyline
+              path={[
+                {
+                  lat: this.state.currentLocation.lat,
+                  lng: this.state.currentLocation.lng,
+                },
+                {
+                  lat: this.state.selectedCard.lat,
+                  lng: this.state.selectedCard.long,
+                },
+              ]}
+            />
+          </>
+        )}
       </GoogleMap>
     ));
     return <App />;

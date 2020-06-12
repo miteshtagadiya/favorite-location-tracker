@@ -60,8 +60,8 @@ const Home = (props) => {
             });
             setDistance(
               getDistanceBetweenPoints(
-                props.currentLocation.lat,
-                props.currentLocation.lng,
+                currentLocation.lat,
+                currentLocation.lng,
                 lat,
                 lng
               )
@@ -161,7 +161,13 @@ const Home = (props) => {
               </Paper>
               <MapCard selectedCard={selectedCard} distance={100} />
               <div style={{ background: "grey" }} />
-              <Map cordinates={cordinates} />
+              <Map
+                distance={distance}
+                isLocationSelected={isLocationSelected}
+                selectedCard={selectedCard}
+                currentLocation={currentLocation}
+                cordinates={isLocationSelected ? [] : cordinates}
+              />
             </Grid>
           </Grid>
         </Container>

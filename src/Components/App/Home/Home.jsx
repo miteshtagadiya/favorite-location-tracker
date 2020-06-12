@@ -2,7 +2,7 @@ import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Header from "../../Ui/Header/Header";
-import { Button, Divider, Paper } from "@material-ui/core";
+import { Button, Divider, Paper, Container, Grid } from "@material-ui/core";
 import { AddOutlined } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
@@ -25,6 +25,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Home = (props) => {
   const classes = useStyles();
+  const [openSidebar, setOpenSidebar] = React.useState(true);
 
   const renderCard = (place, description, lat, lng) => {
     return (
@@ -53,12 +54,16 @@ const Home = (props) => {
       <CssBaseline />
       <Header user={"user"} />
       <div
-        style={{
-          width: 300,
-          height: "100vh",
-          overflowY: "auto",
-          background: "white",
-        }}
+        style={
+          openSidebar
+            ? {
+                width: 300,
+                height: "100vh",
+                overflowY: "auto",
+                background: "white",
+              }
+            : { display: "none" }
+        }
       >
         <div style={{ marginTop: 65, padding: 15 }}>
           <div style={{ textAlign: "center", marginBottom: 15 }}>
@@ -79,6 +84,35 @@ const Home = (props) => {
           </div>
         </div>
       </div>
+      <main className={classes.content}>
+        <div className={classes.appBarSpacer} />
+        <Container disableGutters maxWidth="xl">
+          <Grid container-fluid spacing={3}>
+            <Grid item xs={12} md={12} lg={12}>
+              <Paper
+                elevation={3}
+                style={{
+                  height: 35,
+                  width: 35,
+                  background: "white",
+                  marginTop: 10,
+                  position: "absolute",
+                  zIndex: 1,
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  borderTopLeftRadius: 0,
+                  borderBottomLeftRadius: 0,
+                }}
+                onClick={() => setOpenSidebar(!openSidebar)}
+              >
+                <AddOutlined />
+              </Paper>
+              <div style={{ background: "grey" }} />
+            </Grid>
+          </Grid>
+        </Container>
+      </main>
     </div>
   );
 };

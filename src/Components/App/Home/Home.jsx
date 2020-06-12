@@ -7,6 +7,7 @@ import { AddOutlined } from "@material-ui/icons";
 import Map from "../Maps/Map";
 import MapCard from "../../Ui/Card/MapCard";
 import { getDistanceBetweenPoints } from "../../../utils/utils";
+import Modal from "../../Ui/Modal/Modal";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -28,9 +29,12 @@ const useStyles = makeStyles((theme) => ({
 
 const Home = (props) => {
   const classes = useStyles();
+  const [open, setOpen] = React.useState(false);
   const [openSidebar, setOpenSidebar] = React.useState(true);
   const [selectedCard, setSelectedCard] = React.useState({});
   const [currentLocation, setCurrentLocation] = React.useState({});
+  const [description, setDescription] = React.useState("");
+  const [name, setName] = React.useState("");
   const [distance, setDistance] = React.useState(0);
   const [isLocationSelected, setIsLocationSelected] = React.useState(false);
 
@@ -88,6 +92,15 @@ const Home = (props) => {
     );
   };
 
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+
   let cordinates = [
     { lat: 12.12, lng: 76.68 },
     { lat: 24.879999, lng: 74.629997 },
@@ -121,6 +134,8 @@ const Home = (props) => {
             <Button
               variant="contained"
               color="primary"
+              onClick={handleClickOpen}
+
               startIcon={<AddOutlined />}
             >
               Add New Location
@@ -135,6 +150,15 @@ const Home = (props) => {
           </div>
         </div>
       </div>
+      <Modal
+        open={open}
+        setName={setName}
+        setDescription={setDescription}
+        name={name}
+        description={description}
+        handleClose={handleClose}
+        handleLocationAdd={(e) => {}}
+      />
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
         <Container disableGutters maxWidth="xl">

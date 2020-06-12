@@ -4,6 +4,7 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import Header from "../../Ui/Header/Header";
 import { Button, Divider, Paper, Container, Grid } from "@material-ui/core";
 import { AddOutlined } from "@material-ui/icons";
+import Map from "../Maps/Map";
 import MapCard from "../../Ui/Card/MapCard";
 
 const useStyles = makeStyles((theme) => ({
@@ -60,6 +61,18 @@ const Home = (props) => {
       </Paper>
     );
   };
+
+  let cordinates = [
+    { lat: 12.12, lng: 76.68 },
+    { lat: 24.879999, lng: 74.629997 },
+    { lat: 16.994444, lng: 73.300003 },
+    { lat: 19.155001, lng: 72.849998 },
+    { lat: 24.7945, lng: 73.055 },
+    { lat: 21.25, lng: 81.629997 },
+    { lat: 16.1667, lng: 74.833298 },
+    { lat: 26.85, lng: 80.949997 },
+    { lat: 28.610001, lng: 77.230003 },
+  ];
 
   return (
     <div className={classes.root}>
@@ -122,6 +135,7 @@ const Home = (props) => {
               </Paper>
               <MapCard selectedCard={selectedCard} distance={100} />
               <div style={{ background: "grey" }} />
+              <Map cordinates={cordinates} />
             </Grid>
           </Grid>
         </Container>

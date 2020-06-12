@@ -3,14 +3,12 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import * as serviceWorker from "./serviceWorker";
 import Home from "./Components/App/Home/Home";
-import SignIn from "./Components/App/SignIn/SignIn";
 import { BrowserRouter as Router } from "react-router-dom";
-import SignUp from "./Components/App/SignUp/SignUp";
 
 ReactDOM.render(
   <React.StrictMode>
     <Router>
-      <SignUp />
+      <Home />
     </Router>
   </React.StrictMode>,
   document.getElementById("root")

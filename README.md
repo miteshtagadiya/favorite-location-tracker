@@ -80,3 +80,8 @@ npm install && npm start
     * Click on any favorite location that you what to see the distance between your current location and that location.
     * New Card is displayed on the map that shows details of selected card and distance.
 
+## Demo
+
+<p align="center">
+  <img src="/public/demo.gif">
+</p>

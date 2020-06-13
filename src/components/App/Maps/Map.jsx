@@ -29,6 +29,11 @@ class Map extends Component {
         cordinates: nextProps.cordinates,
       });
     }
+    if (nextProps.cordinates !== this.props.cordinates) {
+      this.setState({
+        cordinates: nextProps.cordinates,
+      });
+    }
   }
 
   render() {
@@ -103,7 +108,9 @@ class Map extends Component {
   }
 }
 
-export default memo(
-  Map,
-  (prevProps, nextProps) => prevProps.selectedCard === nextProps.selectedCard && prevProps.cordinates === nextProps.cordinates
-);
+export default memo(Map, (prevProps, nextProps) => {
+  return (
+    prevProps.selectedCard === nextProps.selectedCard &&
+    prevProps.cordinates === nextProps.cordinates
+  );
+});

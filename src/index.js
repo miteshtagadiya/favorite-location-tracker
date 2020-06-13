@@ -3,14 +3,23 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import * as serviceWorker from "./serviceWorker";
 import { BrowserRouter as Router } from "react-router-dom";
+import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 import App from "./App.jsx";
 
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      main: "#222a44",
+    },
+  },
+});
+
 ReactDOM.render(
-  <React.StrictMode>
+  <MuiThemeProvider theme={theme}>
     <Router>
       <App />
     </Router>
-  </React.StrictMode>,
+  </MuiThemeProvider>,
   document.getElementById("root")
 );
 

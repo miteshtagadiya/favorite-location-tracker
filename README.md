@@ -1,68 +1,82 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Favourite Location Tracker
 
-## Available Scripts
+Project is a web app that lets a user make a list of favorite locations. Users can add a favorite location to the list by selecting a location from the map and adding the details of that location.
+User can select the favorite location list of cards and can see the distance between his/her current location and favorite location.
 
-In the project directory, you can run:
+##
 
-### `npm start`
+The app is developed with ReactJs. Authentication is done by firebase and for location google maps are used.
+To render the map [react-google-maps](https://tomchentw.github.io/react-google-maps/) library used. 
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Installation
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+To get started developing right away:
 
-### `npm test`
+* Install all project dependencies with `npm install`
+* Start the development server with `npm start`
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Type a command to directly run the development server:
+```
+npm install && npm start
+```
 
-### `npm run build`
+## App Structure
+```bash
+├── README.md - This file.
+├── package.json # npm package manager file.
+├── public
+│   ├── favicon.ico # React Icon, You may change if you wish.
+│   └── index.html # Index file
+└── src
+      ├── components
+      |     ├── App # container components
+      |     |    ├── Home
+      |     |    |    ├── Home.jsx #Home page contains maps and sidebar
+      |     |    |    ├── Home.sass #Home sass file contains styles
+      |     |    ├── Maps # Contains Maps
+      |     |    |    ├── Map.jsx #Map component that shows locations
+      |     |    |    ├── SearchMap.jsx #Component to select the location from map
+      |     |    ├── SignIn
+      |     |    |    ├── SignIn.jsx #Login component
+      |     |    ├── SignUp
+      |     |    |    ├── SignUp.jsx #SignUp component
+      |     ├── Ui #Contains reusable ui components
+      |     |    ├── Card
+      |     |    |    ├── Card.jsx #Card component
+      |     |    |    ├── MapCard.jsx #MapCard component to show the card on map
+      |     |    |    ├── Card.sass #Card sass file contains styles
+      |     |    ├── Header
+      |     |    |    ├── Header.jsx #Header component
+      |     |    ├── Modal
+      |     |    |    ├── Modal.jsx #Modal component to add new location
+      |     |    |    ├── Modal.sass #Modal component's styles
+      |     |    ├── SignUp
+      |     |    |    ├── SignUp.jsx #SignUp component
+      ├── helpers
+      |     ├── auth.js # contains firebase login, signup, logout helper methods
+      ├── services
+      |     ├── firebase.js # firebase config file
+      ├── utils
+      |     ├── utils.js # contains commom functions that are used in the app
+      ├── App.jsx # Contains authenticated routes
+      ├── index.css # Global styles. You probably won't need to change anything here.
+      └── index.js # Index file
+```
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Usage
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+* Register in the app if you have not registered else log in to the app by registered email and password.
 
-### `npm run eject`
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+* Add your favorite location by click on Add New Location Button
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+    * Type location name in the search box in the map then press enter
+    * Add you favorite location name
+    * Add details description of that place 
+    * Click on Add Button and location is added to the list.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+* See the distance between your current location and favorite location.
+    * Click on any favorite location that you what to see the distance between your current location and that location.
+    * New Card is displayed on the map that shows details of selected card and distance.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify

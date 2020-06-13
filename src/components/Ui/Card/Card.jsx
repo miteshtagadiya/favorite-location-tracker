@@ -1,11 +1,13 @@
 import React from "react";
 import { Paper } from "@material-ui/core";
 import { getDistanceBetweenPoints } from "../../../utils/utils";
+import "./Card.sass";
 
 const Card = (props) => {
   return (
-    <Paper key={props.lat + props.long} elevation={3}>
+    <Paper className="Card" key={props.lat + props.long} elevation={3}>
       <div
+        className="card-main"
         onClick={() => {
           props.setSelectedCard({
             name: props.name,
@@ -23,19 +25,18 @@ const Card = (props) => {
           );
           props.setIsLocationSelected(true);
         }}
-        style={{ padding: 10, marginTop: 10 }}
       >
-        <label style={{ fontSize: 16, fontWeight: "bold" }}>{props.name}</label>
+        <label className="font-bold card-label">{props.name}</label>
         <br />
         <label>{props.description}</label>
         <br />
         <label>
-          <span style={{ fontWeight: "bold" }}>latitude: </span>
+          <span className="font-bold">latitude: </span>
           {props.lat}
         </label>
         <br />
         <label>
-          <span style={{ fontWeight: "bold" }}>longitude: </span>
+          <span className="font-bold">longitude: </span>
           {props.long}
         </label>
       </div>

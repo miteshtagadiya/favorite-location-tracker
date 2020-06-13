@@ -7,6 +7,7 @@ import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
 import { AccountCircle } from "@material-ui/icons";
 import { Menu, Divider, MenuItem } from "@material-ui/core";
+import { auth } from "firebase";
 
 const useStyles = makeStyles((theme) => ({
   toolbar: {
@@ -65,7 +66,13 @@ const Header = (props) => {
       </div>
       <Divider style={{ marginTop: 20 }} />
 
-      <MenuItem onClick={() => {}}>Logout</MenuItem>
+      <MenuItem
+        onClick={() => {
+          auth().signOut();
+        }}
+      >
+        Logout
+      </MenuItem>
     </Menu>
   );
 

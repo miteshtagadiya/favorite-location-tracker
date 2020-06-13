@@ -66,8 +66,6 @@ class MapWithSearch extends Component {
               refs.searchBox = ref;
             },
             onPlacesChanged: () => {
-              console.log(this.props);
-
               const places = refs.searchBox.getPlaces();
               // eslint-disable-next-line no-undef
               const bounds = new google.maps.LatLngBounds();

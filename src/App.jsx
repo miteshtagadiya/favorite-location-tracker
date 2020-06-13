@@ -52,9 +52,9 @@ class App extends Component {
     ) : (
       <Router>
         <Switch>
-          <Route exact path="/" component={Home} />
           <Route
-            path="/places"
+            exact
+            path="/"
             render={(props) =>
               this.state.authenticated === true ? (
                 <Home {...props} />
@@ -71,7 +71,7 @@ class App extends Component {
               this.state.authenticated === false ? (
                 <SignUp {...props} />
               ) : (
-                <Redirect to="/places" />
+                <Redirect to="/" />
               )
             }
           />
@@ -81,7 +81,7 @@ class App extends Component {
               this.state.authenticated === false ? (
                 <SignIn {...props} />
               ) : (
-                <Redirect to="/places" />
+                <Redirect to="/" />
               )
             }
           />

@@ -11,7 +11,7 @@ import {
   CircularProgress,
 } from "@material-ui/core";
 import { AddOutlined } from "@material-ui/icons";
-import Map from "../Maps/Map";
+import Map from "../Maps/Map.jsx";
 import MapCard from "../../Ui/Card/MapCard";
 import Card from "../../Ui/Card/Card";
 import Modal from "../../Ui/Modal/Modal";

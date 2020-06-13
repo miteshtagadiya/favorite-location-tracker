@@ -9,7 +9,7 @@ import {
   useMediaQuery,
   useTheme,
 } from "@material-ui/core";
-import MapWithSearch from "../../App/Maps/SearchMap";
+import MapWithSearch from "../../App/Maps/SearchMap.jsx";
 
 const Modal = (props) => {
   const theme = useTheme();

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Header from "../../Ui/Header/Header";
@@ -6,8 +6,10 @@ import { Button, Divider, Paper, Container, Grid } from "@material-ui/core";
 import { AddOutlined } from "@material-ui/icons";
 import Map from "../Maps/Map";
 import MapCard from "../../Ui/Card/MapCard";
-import { getDistanceBetweenPoints } from "../../../utils/utils";
+import Card from "../../Ui/Card/Card";
 import Modal from "../../Ui/Modal/Modal";
+import { auth } from "firebase";
+import { db } from "../../../services/firebase";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -31,12 +33,66 @@ const Home = (props) => {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const [openSidebar, setOpenSidebar] = React.useState(true);
-  const [selectedCard, setSelectedCard] = React.useState({});
   const [currentLocation, setCurrentLocation] = React.useState({});
+  const [selectedCard, setSelectedCard] = React.useState({});
+  const [isLocationSelected, setIsLocationSelected] = React.useState(false);
+  const [location, setLocation] = React.useState("");
   const [description, setDescription] = React.useState("");
   const [name, setName] = React.useState("");
-  const [distance, setDistance] = React.useState(0);
-  const [isLocationSelected, setIsLocationSelected] = React.useState(false);
+  const [user] = React.useState(auth().currentUser);
+  const [places, setPlaces] = React.useState([]);
+  const [readError, setReadError] = React.useState(null);
+  const [writeError, setWriteError] = React.useState(null);
+  const [loadingPlaces, setLoadingPlaces] = React.useState(false);
+  const [distance, setDistance] = useState(0);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    setReadError(null);
+    setLoadingPlaces(true);
+    try {
+      db.ref("places").on("value", (snapshot) => {
+        let places = [];
+        snapshot.forEach((snap) => {
+          places.push(snap.val());
+        });
+        places.sort(function (a, b) {
+          return a.timestamp - b.timestamp;
+        });
+
+        setPlaces(places.filter((place) => place.uid === user.uid));
+        setLoadingPlaces(false);
+      });
+    } catch (error) {
+      setReadError(error.message);
+      setLoadingPlaces(false);
+    }
+  }, [user.uid]);
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    setWriteError(null);
+    setLoading(true);
+
+    try {
+      db.ref("places").push({
+        place: name,
+        description: description,
+        longitude: location.longitude,
+        latitude: location.latitude,
+        timestamp: Date.now(),
+        uid: user.uid,
+      });
+      setDescription("");
+      setLocation("");
+      setName("");
+      setLoading(false);
+      handleClose();
+    } catch (error) {
+      setLoading(false);
+      setWriteError(error.message);
+    }
+  };
 
   useEffect(() => {
     if (navigator.geolocation) {
@@ -51,47 +107,6 @@ const Home = (props) => {
     }
   }, []);
 
-  const renderCard = (place, description, lat, lng) => {
-    return (
-      <Paper elevation={3}>
-        <div
-          onClick={() => {
-            setSelectedCard({
-              name: place,
-              description: description,
-              lat: lat,
-              long: lng,
-            });
-            setDistance(
-              getDistanceBetweenPoints(
-                currentLocation.lat,
-                currentLocation.lng,
-                lat,
-                lng
-              )
-            );
-            setIsLocationSelected(true);
-          }}
-          style={{ padding: 10, marginTop: 10 }}
-        >
-          <label style={{ fontSize: 16, fontWeight: "bold" }}>{place}</label>
-          <br />
-          <label>{description}</label>
-          <br />
-          <label>
-            <span style={{ fontWeight: "bold" }}>latitude: </span>
-            {lat}
-          </label>
-          <br />
-          <label>
-            <span style={{ fontWeight: "bold" }}>longitude: </span>
-            {lng}
-          </label>
-        </div>
-      </Paper>
-    );
-  };
-
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -100,23 +115,11 @@ const Home = (props) => {
     setOpen(false);
   };
 
-
-  let cordinates = [
-    { lat: 12.12, lng: 76.68 },
-    { lat: 24.879999, lng: 74.629997 },
-    { lat: 16.994444, lng: 73.300003 },
-    { lat: 19.155001, lng: 72.849998 },
-    { lat: 24.7945, lng: 73.055 },
-    { lat: 21.25, lng: 81.629997 },
-    { lat: 16.1667, lng: 74.833298 },
-    { lat: 26.85, lng: 80.949997 },
-    { lat: 28.610001, lng: 77.230003 },
-  ];
-
+  console.log(places);
   return (
     <div className={classes.root}>
       <CssBaseline />
-      <Header user={"user"} />
+      <Header user={user} />
       <div
         style={
           openSidebar
@@ -135,18 +138,37 @@ const Home = (props) => {
               variant="contained"
               color="primary"
               onClick={handleClickOpen}
-
               startIcon={<AddOutlined />}
             >
               Add New Location
             </Button>
           </div>
           <Divider />
+          {!loadingPlaces && places.length === 0 && (
+            <div style={{ margin: 20, textAlign: "center" }}>
+              No Favorite Places found.
+            </div>
+          )}
+          {readError && (
+            <div style={{ margin: 20, textAlign: "center" }}>{readError}</div>
+          )}
           <div>
-            {renderCard("My Place", "Description", 23.453, 12, 8786)}
-            {renderCard("My Place", "Description", 23.453, 12, 8786)}
-            {renderCard("My Place", "Description", 23.453, 12, 8786)}
-            {renderCard("My Place", "Description", 23.453, 12, 8786)}
+            {loadingPlaces === true
+              ? "Loading..."
+              : places.map((place, index) => {
+                  return (
+                    <Card
+                      name={place.place}
+                      description={place.description}
+                      lat={place.latitude}
+                      long={place.longitude}
+                      setSelectedCard={setSelectedCard}
+                      setDistance={setDistance}
+                      currentLocation={currentLocation}
+                      setIsLocationSelected={setIsLocationSelected}
+                    />
+                  );
+                })}
           </div>
         </div>
       </div>
@@ -156,9 +178,14 @@ const Home = (props) => {
         setDescription={setDescription}
         name={name}
         description={description}
+        location={location}
+        setLocation={setLocation}
         handleClose={handleClose}
-        handleLocationAdd={(e) => {}}
+        handleLocationAdd={(e) => handleSubmit(e)}
+        writeError={writeError}
+        loading={loading}
       />
+
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
         <Container disableGutters maxWidth="xl">
@@ -183,15 +210,19 @@ const Home = (props) => {
               >
                 <AddOutlined />
               </Paper>
-              <MapCard selectedCard={selectedCard} distance={100} />
+              {isLocationSelected && (
+                <MapCard selectedCard={selectedCard} distance={distance} />
+              )}
               <div style={{ background: "grey" }} />
-              <Map
-                distance={distance}
-                isLocationSelected={isLocationSelected}
-                selectedCard={selectedCard}
-                currentLocation={currentLocation}
-                cordinates={isLocationSelected ? [] : cordinates}
-              />
+              {Object.keys(currentLocation).length !== 0 && !loadingPlaces && (
+                <Map
+                  distance={distance}
+                  isLocationSelected={isLocationSelected}
+                  selectedCard={selectedCard}
+                  currentLocation={currentLocation}
+                  cordinates={isLocationSelected ? [] : places}
+                />
+              )}
             </Grid>
           </Grid>
         </Container>

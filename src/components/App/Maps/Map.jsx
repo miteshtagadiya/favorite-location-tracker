@@ -29,6 +29,11 @@ class Map extends Component {
         cordinates: nextProps.cordinates,
       });
     }
+    if(nextProps.selectedCard !== this.props.selectedCard){
+      this.setState({
+        selectedCard: nextProps.selectedCard,
+      });
+    }
     if (nextProps.cordinates !== this.props.cordinates) {
       this.setState({
         cordinates: nextProps.cordinates,

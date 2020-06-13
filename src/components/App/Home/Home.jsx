@@ -123,7 +123,6 @@ const Home = (props) => {
     setOpen(false);
   };
 
-  console.log(places);
   return (
     <div className={classes.root + " Home"}>
       <CssBaseline />

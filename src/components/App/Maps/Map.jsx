@@ -105,5 +105,5 @@ class Map extends Component {
 
 export default memo(
   Map,
-  (prevProps, nextProps) => prevProps.selectedCard === nextProps.selectedCard
+  (prevProps, nextProps) => prevProps.selectedCard === nextProps.selectedCard && prevProps.cordinates === nextProps.cordinates
 );

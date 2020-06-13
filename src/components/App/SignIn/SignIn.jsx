@@ -10,10 +10,12 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import { signin } from "../../../helpers/auth";
+import { Paper } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
     marginTop: theme.spacing(8),
+    padding: 35,
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
@@ -45,71 +47,73 @@ export default function SignIn() {
   const handleSubmit = (event) => {
     event.preventDefault();
     setError("");
-    try {
-      signin(email, password);
-    } catch (error) {
+    signin(email, password).catch((error) => {
       setError(error.message);
-    }
+    });
   };
 
   return (
-    <Container component="main" maxWidth="xs">
+    <Container component="main" maxWidth="sm">
       <CssBaseline />
-      <div className={classes.paper}>
-        <Avatar className={classes.avatar}>
-          <LockOutlinedIcon />
-        </Avatar>
-        <Typography component="h1" variant="h5">
-          Sign in
-        </Typography>
-        <form className={classes.form} onSubmit={handleSubmit} noValidate>
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            value={email}
-            onChange={handleChange}
-            id="email"
-            label="Email Address"
-            name="email"
-            autoComplete="email"
-            autoFocus
-          />
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            name="password"
-            label="Password"
-            value={password}
-            type="password"
-            onChange={handleChange}
-            id="password"
-            autoComplete="current-password"
-          />
-          {error ? (
-            <Typography className="secondary">{this.state.error}</Typography>
-          ) : null}
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            className={classes.submit}
-          >
-            Sign In
-          </Button>
-          <Grid container>
-            <Grid item>
-              <Link to="/signup" variant="body2">
-                {"Don't have an account? Sign Up"}
-              </Link>
+      <Paper>
+        <div className={classes.paper}>
+          <Avatar className={classes.avatar}>
+            <LockOutlinedIcon />
+          </Avatar>
+          <Typography component="h1" variant="h5">
+            Sign in
+          </Typography>
+          <form className={classes.form} onSubmit={handleSubmit} noValidate>
+            <TextField
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              value={email}
+              onChange={handleChange}
+              id="email"
+              label="Email Address"
+              name="email"
+              autoComplete="email"
+              autoFocus
+            />
+            <TextField
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              name="password"
+              label="Password"
+              value={password}
+              type="password"
+              onChange={handleChange}
+              id="password"
+              autoComplete="current-password"
+            />
+            {error ? (
+              <Typography style={{ color: "red" }} className="secondary">
+                {error}
+              </Typography>
+            ) : null}
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              color="primary"
+              className={classes.submit}
+            >
+              Sign In
+            </Button>
+            <Grid container>
+              <Grid item>
+                <Link to="/signup" variant="body2">
+                  {"Don't have an account? Sign Up"}
+                </Link>
+              </Grid>
             </Grid>
-          </Grid>
-        </form>
-      </div>
+          </form>
+        </div>
+      </Paper>
     </Container>
   );
 }

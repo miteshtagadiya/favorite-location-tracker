@@ -9,6 +9,7 @@ import {
   useMediaQuery,
   useTheme,
 } from "@material-ui/core";
+import MapWithSearch from "../../App/Maps/SearchMap";
 
 const Modal = (props) => {
   const theme = useTheme();
@@ -25,6 +26,19 @@ const Modal = (props) => {
       </DialogTitle>
       <DialogContent>
         <div style={{ textAlign: "center" }}>
+          <MapWithSearch
+            select={"select"}
+            onSelect={(location) => {
+              if (typeof location !== "undefined") {
+                console.log(location.position.lat());
+                console.log(location.position.lng());
+              }
+              props.setLocation({
+                latitude: 24.879999,
+                longitude: 24.879999,
+              });
+            }}
+          />
           <div style={{ marginTop: 20, width: 530 }}>
             <TextField
               id="filled-multiline-static"
@@ -53,7 +67,9 @@ const Modal = (props) => {
           Cancel
         </Button>
         <Button
-          disabled={props.description === "" || props.name === ""}
+          disabled={
+            props.description === "" || props.name === "" || props.loading
+          }
           onClick={props.handleLocationAdd}
           color="primary"
           autoFocus

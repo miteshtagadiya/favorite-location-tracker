@@ -17,6 +17,7 @@ import Card from "../../Ui/Card/Card";
 import Modal from "../../Ui/Modal/Modal";
 import { auth } from "firebase";
 import { db } from "../../../services/firebase";
+import "./Home.sass";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -124,23 +125,12 @@ const Home = (props) => {
 
   console.log(places);
   return (
-    <div className={classes.root}>
+    <div className={classes.root + " Home"}>
       <CssBaseline />
       <Header user={user} />
-      <div
-        style={
-          openSidebar
-            ? {
-                width: 300,
-                height: "100vh",
-                overflowY: "auto",
-                background: "white",
-              }
-            : { display: "none" }
-        }
-      >
-        <div style={{ marginTop: 65, padding: 15 }}>
-          <div style={{ textAlign: "center", marginBottom: 15 }}>
+      <div className={openSidebar ? "openSidebar" : "closeSidebar"}>
+        <div className="location-box">
+          <div className="location-button">
             <Button
               variant="contained"
               color="primary"
@@ -152,16 +142,12 @@ const Home = (props) => {
           </div>
           <Divider />
           {!loadingPlaces && places.length === 0 && (
-            <div style={{ margin: 20, textAlign: "center" }}>
-              No Favorite Places found.
-            </div>
+            <div className="textmessage-center">No Favorite Places found.</div>
           )}
-          {readError && (
-            <div style={{ margin: 20, textAlign: "center" }}>{readError}</div>
-          )}
+          {readError && <div className="textmessage-center">{readError}</div>}
           <div>
             {loadingPlaces === true ? (
-              <div style={{ textAlign: "center", marginTop: 30 }}>
+              <div className="loader">
                 <CircularProgress />
                 <div>Loading...</div>
               </div>
@@ -205,19 +191,7 @@ const Home = (props) => {
             <Grid item xs={12} md={12} lg={12}>
               <Paper
                 elevation={3}
-                style={{
-                  height: 35,
-                  width: 35,
-                  background: "white",
-                  marginTop: 10,
-                  position: "absolute",
-                  zIndex: 1,
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  borderTopLeftRadius: 0,
-                  borderBottomLeftRadius: 0,
-                }}
+                className="sidebar-handler"
                 onClick={() => setOpenSidebar(!openSidebar)}
               >
                 <AddOutlined />

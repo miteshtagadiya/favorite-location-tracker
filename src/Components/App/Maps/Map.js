@@ -9,7 +9,7 @@ const {
   Polyline,
 } = require("react-google-maps");
 
-class App1 extends Component {
+class Map extends Component {
   state = {
     isLocationSelected: this.props.isLocationSelected,
     selectedCard: this.props.selectedCard,
@@ -111,4 +111,7 @@ class App1 extends Component {
   }
 }
 
-export default App1;
+export default memo(
+  Map,
+  (prevProps, nextProps) => prevProps.selectedCard === nextProps.selectedCard
+);

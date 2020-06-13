@@ -35,7 +35,7 @@ class MapWithSearch extends Component {
     const App = compose(
       withProps({
         googleMapURL:
-          "https://maps.googleapis.com/maps/api/js?key=AIzaSyBTXgToEN4wP-iI0iG245T7sgx2KapsPGE&v=3.exp&libraries=geometry,drawing,places",
+          "https://maps.googleapis.com/maps/api/js?key=AIzaSyCFEFiAmYXJjflpzWfWJXY1hPLB9SFi4_c&v=3.exp&libraries=geometry,drawing,places",
         loadingElement: <div style={{ height: `100%` }} />,
         containerElement: (
           <div style={{ height: `300px`, overflowY: "hidden" }} />

@@ -1,6 +1,6 @@
 import React from "react";
 import { Paper } from "@material-ui/core";
-import { getDistanceBetweenPoints } from "../../../utils/util";
+import { getDistanceBetweenPoints } from "../../../utils/utils";
 
 const Card = (props) => {
   return (

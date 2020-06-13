@@ -2,7 +2,14 @@ import React, { useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Header from "../../Ui/Header/Header";
-import { Button, Divider, Paper, Container, Grid } from "@material-ui/core";
+import {
+  Button,
+  Divider,
+  Paper,
+  Container,
+  Grid,
+  CircularProgress,
+} from "@material-ui/core";
 import { AddOutlined } from "@material-ui/icons";
 import Map from "../Maps/Map";
 import MapCard from "../../Ui/Card/MapCard";
@@ -153,22 +160,27 @@ const Home = (props) => {
             <div style={{ margin: 20, textAlign: "center" }}>{readError}</div>
           )}
           <div>
-            {loadingPlaces === true
-              ? "Loading..."
-              : places.map((place, index) => {
-                  return (
-                    <Card
-                      name={place.place}
-                      description={place.description}
-                      lat={place.latitude}
-                      long={place.longitude}
-                      setSelectedCard={setSelectedCard}
-                      setDistance={setDistance}
-                      currentLocation={currentLocation}
-                      setIsLocationSelected={setIsLocationSelected}
-                    />
-                  );
-                })}
+            {loadingPlaces === true ? (
+              <div style={{ textAlign: "center", marginTop: 30 }}>
+                <CircularProgress />
+                <div>Loading...</div>
+              </div>
+            ) : (
+              places.map((place, index) => {
+                return (
+                  <Card
+                    name={place.place}
+                    description={place.description}
+                    lat={place.latitude}
+                    long={place.longitude}
+                    setSelectedCard={setSelectedCard}
+                    setDistance={setDistance}
+                    currentLocation={currentLocation}
+                    setIsLocationSelected={setIsLocationSelected}
+                  />
+                );
+              })
+            )}
           </div>
         </div>
       </div>

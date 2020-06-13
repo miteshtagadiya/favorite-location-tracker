@@ -9,7 +9,7 @@ import { auth } from "./services/firebase";
 import Home from "./components/App/Home/Home";
 import SignUp from "./components/App/SignUp/SignUp";
 import SignIn from "./components/App/SignIn/SignIn";
-
+import { CircularProgress } from "@material-ui/core";
 
 class App extends Component {
   constructor() {
@@ -38,8 +38,16 @@ class App extends Component {
 
   render() {
     return this.state.loading === true ? (
-      <div className="spinner-border text-success" role="status">
-        <span className="sr-only">Loading...</span>
+      <div
+        style={{
+          textAlign: "center",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+        }}
+      >
+        <CircularProgress />
       </div>
     ) : (
       <Router>

@@ -61,7 +61,9 @@ const Modal = (props) => {
           </div>
         </div>
       </DialogContent>
-
+      {props.writeError !== null && (
+        <div style={{ margin: 20 }}>{props.writeError}</div>
+      )}
       <DialogActions style={{ justifyContent: "center", padding: 15 }}>
         <Button autoFocus onClick={props.handleClose} color="primary">
           Cancel

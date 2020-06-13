@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useLayoutEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Header from "../../Ui/Header/Header";
@@ -10,7 +10,7 @@ import {
   Grid,
   CircularProgress,
 } from "@material-ui/core";
-import { AddOutlined } from "@material-ui/icons";
+import { AddOutlined, NavigateBefore, NavigateNext } from "@material-ui/icons";
 import Map from "../Maps/Map.jsx";
 import MapCard from "../../Ui/Card/MapCard";
 import Card from "../../Ui/Card/Card";
@@ -37,9 +37,23 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+function useWindowSize() {
+  const [size, setSize] = useState([0, 0]);
+  useLayoutEffect(() => {
+    function updateSize() {
+      setSize([window.innerWidth, window.innerHeight]);
+    }
+    window.addEventListener("resize", updateSize);
+    updateSize();
+    return () => window.removeEventListener("resize", updateSize);
+  }, []);
+  return size;
+}
+
 const Home = (props) => {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
+  const [width] = useWindowSize();
   const [openSidebar, setOpenSidebar] = React.useState(true);
   const [currentLocation, setCurrentLocation] = React.useState({});
   const [selectedCard, setSelectedCard] = React.useState({});
@@ -54,6 +68,12 @@ const Home = (props) => {
   const [loadingPlaces, setLoadingPlaces] = React.useState(false);
   const [distance, setDistance] = useState(0);
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (width > 0 && width < 768) {
+      setOpenSidebar(false);
+    }
+  }, [setOpenSidebar, width]);
 
   useEffect(() => {
     setReadError(null);
@@ -158,7 +178,14 @@ const Home = (props) => {
                     description={place.description}
                     lat={place.latitude}
                     long={place.longitude}
-                    setSelectedCard={setSelectedCard}
+                    setSelectedCard={(card) => {
+                      if (width < 768) {
+                        setSelectedCard(card);
+                        setOpenSidebar(!openSidebar);
+                      } else {
+                        setSelectedCard(card);
+                      }
+                    }}
                     setDistance={setDistance}
                     currentLocation={currentLocation}
                     setIsLocationSelected={setIsLocationSelected}
@@ -193,9 +220,9 @@ const Home = (props) => {
                 className="sidebar-handler"
                 onClick={() => setOpenSidebar(!openSidebar)}
               >
-                <AddOutlined />
+                {openSidebar ? <NavigateBefore /> : <NavigateNext />}
               </Paper>
-              {isLocationSelected && (
+              {isLocationSelected && !openSidebar && (
                 <MapCard selectedCard={selectedCard} distance={distance} />
               )}
               <div style={{ background: "grey" }} />

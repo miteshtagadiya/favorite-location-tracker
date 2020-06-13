@@ -37,6 +37,11 @@ const Modal = (props) => {
                   latitude: location.position.lat(),
                   longitude: location.position.lng(),
                 });
+              }else{
+                props.setLocation({
+                  latitude: 24.6578,
+                  longitude: 25.64246,
+                });
               }
             }}
           />

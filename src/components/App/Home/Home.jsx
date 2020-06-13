@@ -222,9 +222,14 @@ const Home = (props) => {
               >
                 {openSidebar ? <NavigateBefore /> : <NavigateNext />}
               </Paper>
-              {isLocationSelected && !openSidebar && (
-                <MapCard selectedCard={selectedCard} distance={distance} />
-              )}
+              {width < 768
+                ? isLocationSelected &&
+                  !openSidebar && (
+                    <MapCard selectedCard={selectedCard} distance={distance} />
+                  )
+                : isLocationSelected && (
+                    <MapCard selectedCard={selectedCard} distance={distance} />
+                  )}
               <div style={{ background: "grey" }} />
               {Object.keys(currentLocation).length !== 0 && !loadingPlaces && (
                 <Map

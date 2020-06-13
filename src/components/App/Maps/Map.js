@@ -18,14 +18,6 @@ class Map extends Component {
   };
 
   componentWillUpdate(nextProps, nextState) {
-    console.log(nextProps.isLocationSelected);
-    console.log(this.props.isLocationSelected);
-    console.log(nextProps.selectedCard);
-    console.log(this.props.selectedCard);
-    console.log(
-      nextProps.isLocationSelected !== this.props.isLocationSelected &&
-        nextProps.selectedCard !== this.props.selectedCard
-    );
     if (
       nextProps.isLocationSelected !== this.props.isLocationSelected &&
       nextProps.selectedCard !== this.props.selectedCard
@@ -62,8 +54,8 @@ class Map extends Component {
                 lng: this.state.currentLocation.lng,
               }
             : {
-                lat: this.state.cordinates[0].lat,
-                lng: this.state.cordinates[0].lng,
+                lat: this.state.cordinates[0].latitude,
+                lng: this.state.cordinates[0].longitude,
               }
         }
       >
@@ -72,7 +64,7 @@ class Map extends Component {
               return (
                 <Marker
                   key={index}
-                  position={{ lat: cord.lat, lng: cord.lng }}
+                  position={{ lat: cord.latitude, lng: cord.longitude }}
                 />
               );
             })

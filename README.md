@@ -10,8 +10,8 @@ To render the map [react-google-maps](https://tomchentw.github.io/react-google-m
 
 ## Installation
 
-Add your firebase config in services/firebase.js
-Add your google map api key in src/components/Maps/Map.jsx and src/components/Maps/SearchMap.jsx
+* Add your firebase config in `services/firebase.js`
+* Add your google map api key in `src/components/Maps/Map.jsx` and `src/components/Maps/SearchMap.jsx`
 
 To get started developing right away:
 

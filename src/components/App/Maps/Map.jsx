@@ -45,7 +45,7 @@ class Map extends Component {
     const App = compose(
       withProps({
         googleMapURL:
-          "https://maps.googleapis.com/maps/api/js?key=AIzaSyCFEFiAmYXJjflpzWfWJXY1hPLB9SFi4_c&v=3.exp&libraries=geometry,drawing,places",
+          "https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&v=3.exp&libraries=geometry,drawing,places",
         loadingElement: <div style={{ height: `100%` }} />,
         containerElement: (
           <div style={{ height: `87vh`, overflowY: "hidden" }} />
